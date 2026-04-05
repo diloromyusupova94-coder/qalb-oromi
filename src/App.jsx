@@ -371,14 +371,14 @@ export default function App() {
           <div style={S.splashGlow} />
         </div>
         <div style={S.splashTitle}>Qalb oromi</div>
-        <div style={S.splashSub}>She'rlaringiz uchun joy</div>
+        <div style={S.splashSub}>Dilorom Yusupova ijodi</div>
         <div style={S.splashDots}>
           <span style={{ ...S.dot, animationDelay: "0s" }} />
           <span style={{ ...S.dot, animationDelay: "0.2s" }} />
           <span style={{ ...S.dot, animationDelay: "0.4s" }} />
         </div>
       </div>
-      <div style={S.splashDev}>Anthropic Claude tomonidan yaratildi</div>
+      <div style={S.splashDev}>Qalb oromi | 2026</div>
     </div>
   );
 
