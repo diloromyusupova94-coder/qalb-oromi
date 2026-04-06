@@ -122,10 +122,7 @@ const themes = {
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App() {
   const [splash, setSplash] = useState(true);
-  const [poems, setPoems] = useState(() => {
-    try { const s = localStorage.getItem("qalb_oromi"); return s ? JSON.parse(s) : poemsData; }
-    catch { return poemsData; }
-  });
+  const [poems] = useState(poemsData);
   const [view, setView] = useState("list");
   const [selected, setSelected] = useState(null);
   const [filterTag, setFilterTag] = useState(null);
@@ -146,10 +143,6 @@ export default function App() {
     const t = setTimeout(() => setSplash(false), 2600);
     return () => clearTimeout(t);
   }, []);
-
-  useEffect(() => {
-    try { localStorage.setItem("qalb_oromi", JSON.stringify(poems)); } catch {}
-  }, [poems]);
 
   useEffect(() => {
     try { localStorage.setItem("qalb_favs", JSON.stringify(favorites)); } catch {}
