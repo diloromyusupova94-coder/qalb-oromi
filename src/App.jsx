@@ -173,18 +173,6 @@ export default function App() {
   const toggleFav = (id) => setFavorites(f => f.includes(id) ? f.filter(x => x !== id) : [...f, id]);
 
   const openRead = (poem) => { setSelected(poem); setView("read"); };
-  const openEdit = (poem) => {
-    setForm({ title: poem.title, content: poem.content, tags: poem.tags.join(", ") });
-    setEditId(poem.id); setView("write");
-  };
-  const openNew = () => { setForm({ title: "", content: "", tags: "" }); setEditId(null); setView("write"); };
-
-      setPoems(prev => [newPoem, ...prev]);
-      showToast("She'r saqlandi 🌸");
-      setView("list");
-    }
-  };
-
 
   // ── SPLASH ────────────────────────────────────────────────────────────────
   if (splash) return (
@@ -241,7 +229,6 @@ export default function App() {
                   }}>{icon}</button>
                 ))}
               </div>
-              <button style={S.fab} onClick={openNew}>＋</button>
             </div>
           </div>
 
