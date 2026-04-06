@@ -301,20 +301,6 @@ export default function App() {
   const [editId, setEditId] = useState(null);
   const [toast, setToast] = useState("");
   const [activeTab, setActiveTab] = useState("all"); // all | favorites
-  const [speaking, setSpeaking] = useState(false);
-
-  const speak = (text) => {
-    if (!window.speechSynthesis) { showToast("Brauzer ovozni qo'llab-quvvatlamaydi"); return; }
-    if (speaking) { window.speechSynthesis.cancel(); setSpeaking(false); return; }
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = "uz-UZ";
-    utter.rate = 0.85;
-    utter.pitch = 1;
-    utter.onend = () => setSpeaking(false);
-    utter.onerror = () => setSpeaking(false);
-    setSpeaking(true);
-    window.speechSynthesis.speak(utter);
-  };
   const [favorites, setFavorites] = useState(() => {
     try { const s = localStorage.getItem("qalb_favs"); return s ? JSON.parse(s) : []; }
     catch { return []; }
@@ -491,7 +477,7 @@ export default function App() {
       {view === "read" && selected && (
         <div style={S.screen}>
           <div style={S.navBar}>
-            <button style={S.navBack} onClick={() => { window.speechSynthesis?.cancel(); setSpeaking(false); setView("list"); }}>‹</button>
+            <button style={S.navBack} onClick={() => setView("list")}>‹</button>
             <div style={S.navTitle}>She'r</div>
             <button style={S.navFav} onClick={() => toggleFav(selected.id)}>
               {favorites.includes(selected.id) ? "❤️" : "🤍"}
@@ -511,10 +497,7 @@ export default function App() {
             )}
           </div>
           <div style={S.actionBar}>
-            <button style={S.actionSpeak} onClick={() => speak(selected.title + "\n" + selected.content)}>
-              {speaking ? "⏹ To'xtatish" : "🔊 Tinglash"}
-            </button>
-            <button style={S.actionEdit} onClick={() => openEdit(selected)}>✏️</button>
+            <button style={S.actionEdit} onClick={() => openEdit(selected)}>✏️  Tahrirlash</button>
             <button style={S.actionDel} onClick={() => deletePoem(selected.id)}>🗑️</button>
           </div>
         </div>
@@ -706,17 +689,11 @@ const S = {
     display: "flex", gap: 10, padding: "12px 16px 20px",
     background: "rgba(15,7,32,0.95)", borderTop: "1px solid rgba(192,132,252,0.12)",
   },
-  actionSpeak: {
-    flex: 1, background: "rgba(192,132,252,0.15)",
-    border: "1.5px solid rgba(192,132,252,0.4)", borderRadius: 14,
-    padding: "13px", color: "#c084fc", fontSize: 14,
-    fontWeight: 700, cursor: "pointer", fontFamily: "'Nunito', sans-serif",
-  },
   actionEdit: {
-    width: 50, background: "linear-gradient(135deg, #9333ea, #ec4899)",
-    border: "none", borderRadius: 14,
-    padding: "13px", color: "#fff",
-    fontSize: 18, cursor: "pointer",
+    flex: 1, background: "linear-gradient(135deg, #9333ea, #ec4899)",
+    border: "none", borderRadius: 14, padding: "13px", color: "#fff",
+    fontSize: 15, fontWeight: 700, cursor: "pointer",
+    boxShadow: "0 3px 16px rgba(147,51,234,0.4)",
   },
   actionDel: {
     width: 50, background: "rgba(244,114,182,0.1)",
