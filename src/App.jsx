@@ -165,7 +165,7 @@ export default function App() {
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <AppIcon size={36} style={{ borderRadius: 10 }} />
               <div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: T.title }}}>Qalb oromi</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: T.title }}>Qalb oromi</div>
                 <div style={{ fontSize: 11, color: T.sub }}>{poems.length} ta she’r</div>
               </div>
             </div>
