@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import poemsData from "./poems.json";
 
-// ─── APP ICON ────────────────────────────────────────────────────────────────
 function AppIcon({ size = 80, style = {} }) {
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" style={style}>
@@ -30,7 +29,6 @@ function AppIcon({ size = 80, style = {} }) {
   );
 }
 
-// ─── THEMES ──────────────────────────────────────────────────────────────────
 const themes = {
   night: {
     rootBg: "#0f0720",
@@ -43,7 +41,6 @@ const themes = {
     preview: "rgba(240,230,255,0.5)",
     readText: "rgba(240,230,255,0.82)",
     cardBg: "rgba(255,255,255,0.04)",
-    inputBg: "rgba(255,255,255,0.05)",
     accent: "#c084fc",
     switchBg: "rgba(255,255,255,0.08)",
     switchActive: "rgba(192,132,252,0.3)",
@@ -59,7 +56,6 @@ const themes = {
     preview: "rgba(45,18,80,0.55)",
     readText: "rgba(45,18,80,0.82)",
     cardBg: "rgba(255,255,255,0.85)",
-    inputBg: "rgba(255,255,255,0.9)",
     accent: "#9333ea",
     switchBg: "rgba(147,51,234,0.1)",
     switchActive: "rgba(147,51,234,0.2)",
@@ -75,14 +71,12 @@ const themes = {
     preview: "rgba(61,43,31,0.6)",
     readText: "rgba(61,43,31,0.85)",
     cardBg: "rgba(255,250,235,0.85)",
-    inputBg: "rgba(255,252,242,0.9)",
     accent: "#8b5a2b",
     switchBg: "rgba(139,90,43,0.12)",
     switchActive: "rgba(139,90,43,0.25)",
   },
 };
 
-// ─── TAG COLORS ──────────────────────────────────────────────────────────────
 const TAG_COLORS = ["#c084fc","#f472b6","#fb923c","#34d399","#60a5fa","#a78bfa","#f87171"];
 function getTagColor(tag) {
   let h = 0;
@@ -90,7 +84,6 @@ function getTagColor(tag) {
   return TAG_COLORS[h];
 }
 
-// ─── APP ─────────────────────────────────────────────────────────────────────
 export default function App() {
   const [splash, setSplash] = useState(true);
   const [view, setView] = useState("list");
@@ -125,7 +118,6 @@ export default function App() {
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 2200); };
   const toggleFav = (id) => setFavorites(f => f.includes(id) ? f.filter(x => x !== id) : [...f, id]);
-  const openRead = (poem) => { setSelected(poem); setView("read"); };
 
   const allTags = [...new Set(poems.flatMap(p => p.tags))];
   const filtered = poems.filter(p => {
@@ -136,9 +128,8 @@ export default function App() {
     return true;
   });
 
-  // ── SPLASH ──────────────────────────────────────────────────────────────────
   if (splash) return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "linear-gradient(160deg, #0f0720 0%, #1e0b3a 50%, #0f0720 100%)", fontFamily: "'Nunito', sans-serif", position: "relative" }}>
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "linear-gradient(160deg, #0f0720 0%, #1e0b3a 50%, #0f0720 100%)", fontFamily: "'Nunito‘, sans-serif", position: "relative" }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", animation: "splashIn 0.7s cubic-bezier(.34,1.56,.64,1) both" }}>
         <div style={{ position: "relative", marginBottom: 28 }}>
           <AppIcon size={100} />
@@ -157,32 +148,27 @@ export default function App() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap');
         @keyframes splashIn { from { opacity:0; transform:scale(0.85) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
         @keyframes pulse { 0%,100% { opacity:0.3; transform:scale(0.8); } 50% { opacity:1; transform:scale(1); } }
-        @keyframes glowPulse { 0%,100% { opacity:0.4; transform:scale(1); } 50% { opacity:0.8; transform:scale(1.15); } }
+        @keyframes glowPulse { 0%,100% { opacity:0.4; } 50% { opacity:0.8; } }
       `}</style>
     </div>
   );
 
-  // ── MAIN ────────────────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight: "100vh", background: T.rootBg, color: T.text, fontFamily: "'Nunito', sans-serif", position: "relative", overflowX: "hidden", maxWidth: 480, margin: "0 auto" }}>
+    <div style={{ minHeight: "100vh", background: T.rootBg, color: T.text, fontFamily: "'Nunito‘, sans-serif", position: "relative", overflowX: "hidden", maxWidth: 480, margin: "0 auto" }}>
       <div style={{ position: "fixed", inset: 0, background: T.bgGrad, zIndex: 0 }} />
 
       {toast && <div style={{ position: "fixed", bottom: 30, left: "50%", transform: "translateX(-50%)", background: "rgba(192,132,252,0.95)", color: "#1a0a2e", padding: "10px 26px", borderRadius: 30, fontWeight: 700, fontSize: 14, zIndex: 9999, whiteSpace: "nowrap" }}>{toast}</div>}
 
-      {/* ── LIST ── */}
       {view === "list" && (
         <div style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-
-          {/* AppBar */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px 14px", background: T.appBar, backdropFilter: "blur(20px)", borderBottom: `1px solid ${T.border}`, position: "sticky", top: 0, zIndex: 50 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <AppIcon size={36} style={{ borderRadius: 10 }} />
               <div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: T.title, letterSpacing: 0.5 }}>Qalb oromi</div>
-                <div style={{ fontSize: 11, color: T.sub, marginTop: 1 }}>{poems.length} ta she'r</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: T.title }}}>Qalb oromi</div>
+                <div style={{ fontSize: 11, color: T.sub }}>{poems.length} ta she’r</div>
               </div>
             </div>
-            {/* Theme switcher */}
             <div style={{ display: "flex", background: T.switchBg, borderRadius: 12, padding: 3, gap: 2 }}>
               {[["night","🌙"],["day","☀️"],["book","📖"]].map(([t, icon]) => (
                 <button key={t} onClick={() => setTheme(t)} style={{ background: theme === t ? T.switchActive : "transparent", border: "none", borderRadius: 9, width: 32, height: 30, cursor: "pointer", fontSize: 16, transition: "background 0.2s" }}>{icon}</button>
@@ -190,45 +176,39 @@ export default function App() {
             </div>
           </div>
 
-          {/* Search */}
           <div style={{ margin: "14px 16px 0", display: "flex", alignItems: "center", background: T.cardBg, border: `1.5px solid ${T.border}`, borderRadius: 14, padding: "0 14px" }}>
             <span style={{ fontSize: 14, marginRight: 8, opacity: 0.5 }}>🔍</span>
-            <input style={{ flex: 1, background: "none", border: "none", padding: "11px 0", color: T.text, fontSize: 14, outline: "none", fontFamily: "'Nunito', sans-serif" }} placeholder="She'r qidirish..." value={search} onChange={e => setSearch(e.target.value)} />
+            <input style={{ flex: 1, background: "none", border: "none", padding: "11px 0", color: T.text, fontSize: 14, outline: "none", fontFamily: "'Nunito‘, sans-serif" }} placeholder="She’r qidirish..." value={search} onChange={e => setSearch(e.target.value)} />
             {search && <button style={{ background: "none", border: "none", color: T.sub, cursor: "pointer", fontSize: 14 }} onClick={() => setSearch("")}>✕</button>}
           </div>
 
-          {/* Tabs */}
           <div style={{ display: "flex", margin: "14px 16px 0", gap: 8 }}>
-            {[["all","Barcha she'rlar"],["favorites","❤️ Sevimlilar"]].map(([t, label]) => (
-              <button key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, padding: "9px 0", borderRadius: 12, border: `1.5px solid ${activeTab === t ? T.accent + "80" : T.border}`, background: activeTab === t ? T.switchActive : "transparent", color: activeTab === t ? T.title : T.sub, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>{label}</button>
+            {[["all","Barcha she’rlar"],["favorites","❤️ Sevimlilar"]].map(([t, label]) => (
+              <button key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, padding: "9px 0", borderRadius: 12, border: `1.5px solid ${activeTab === t ? T.accent + "80" : T.border}`, background: activeTab === t ? T.switchActive : "transparent", color: activeTab === t ? T.title : T.sub, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito‘, sans-serif" }}>{label}</button>
             ))}
           </div>
 
-          {/* Tags */}
           {allTags.length > 0 && (
             <div style={{ display: "flex", overflowX: "auto", gap: 8, padding: "12px 16px", scrollbarWidth: "none" }}>
-              <button onClick={() => setFilterTag(null)} style={{ flexShrink: 0, padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${T.accent}`, background: filterTag === null ? T.switchActive : "transparent", color: T.accent, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>Barchasi</button>
+              <button onClick={() => setFilterTag(null)} style={{ flexShrink: 0, padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${T.accent}`, background: filterTag === null ? T.switchActive : "transparent", color: T.accent, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito‘, sans-serif" }}>Barchasi</button>
               {allTags.map(tag => (
-                <button key={tag} onClick={() => setFilterTag(filterTag === tag ? null : tag)} style={{ flexShrink: 0, padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${getTagColor(tag)}`, background: filterTag === tag ? getTagColor(tag) + "33" : "transparent", color: getTagColor(tag), fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito', sans-serif" }}>#{tag}</button>
+                <button key={tag} onClick={() => setFilterTag(filterTag === tag ? null : tag)} style={{ flexShrink: 0, padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${getTagColor(tag)}`, background: filterTag === tag ? getTagColor(tag) + "33" : "transparent", color: getTagColor(tag), fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "'Nunito‘, sans-serif" }}>#{tag}</button>
               ))}
             </div>
           )}
 
-          {/* Cards */}
           <div style={{ flex: 1, overflowY: "auto", padding: "8px 16px 0" }}>
             {filtered.length === 0 && (
               <div style={{ textAlign: "center", padding: "80px 20px", color: T.sub }}>
                 <div style={{ fontSize: 48, marginBottom: 14 }}>✦</div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20 }}>She'r topilmadi</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20 }}>She’r topilmadi</div>
               </div>
             )}
             {filtered.map((poem, i) => (
-              <div key={poem.id} onClick={() => openRead(poem)} style={{ background: T.cardBg, border: `1px solid ${T.border}`, borderRadius: 18, padding: "18px 18px 14px", marginBottom: 12, cursor: "pointer", position: "relative", animation: "fadeUp 0.4s ease both", animationDelay: `${i * 0.05}s` }}>
+              <div key={poem.id} onClick={() => { setSelected(poem); setView("read"); }} style={{ background: T.cardBg, border: `1px solid ${T.border}`, borderRadius: 18, padding: "18px 18px 14px", marginBottom: 12, cursor: "pointer", position: "relative", animation: "fadeUp 0.4s ease both", animationDelay: `${i * 0.05}s` }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                   <div style={{ fontSize: 10, color: T.sub, letterSpacing: 1 }}>{poem.date}</div>
-                  <button onClick={e => { e.stopPropagation(); toggleFav(poem.id); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, padding: 0 }}>
-                    {favorites.includes(poem.id) ? "❤️" : "🤍"}
-                  </button>
+                  <button onClick={e => { e.stopPropagation(); toggleFav(poem.id); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, padding: 0 }}>{favorites.includes(poem.id) ? "❤️" : "🤍"}</button>
                 </div>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: T.title, marginBottom: 8 }}>{poem.title}</div>
                 <div style={{ fontSize: 13, color: T.preview, lineHeight: 1.65, whiteSpace: "pre-line", fontStyle: "italic", fontFamily: "'Cormorant Garamond', serif" }}>
@@ -249,15 +229,12 @@ export default function App() {
         </div>
       )}
 
-      {/* ── READ ── */}
       {view === "read" && selected && (
         <div style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 16px", background: T.appBar, backdropFilter: "blur(20px)", borderBottom: `1px solid ${T.border}`, position: "sticky", top: 0, zIndex: 50 }}>
             <button onClick={() => setView("list")} style={{ background: "none", border: "none", color: T.accent, fontSize: 30, cursor: "pointer", lineHeight: 1, padding: "0 4px", width: 36 }}>‹</button>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 600, color: T.title }}>She'r</div>
-            <button onClick={() => toggleFav(selected.id)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, width: 36, textAlign: "right" }}>
-              {favorites.includes(selected.id) ? "❤️" : "🤍"}
-            </button>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 600, color: T.title }}>She’r</div>
+            <button onClick={() => toggleFav(selected.id)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, width: 36, textAlign: "right" }}>{favorites.includes(selected.id) ? "❤️" : "🤍"}</button>
           </div>
           <div style={{ flex: 1, overflowY: "auto", padding: "28px 24px 60px", background: T.rootBg, animation: "fadeUp 0.35s ease" }}>
             <div style={{ fontSize: 11, color: T.sub, letterSpacing: 1, marginBottom: 10 }}>{selected.date}</div>
@@ -279,9 +256,8 @@ export default function App() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #0f0720; }
-        input, button { font-family: 'Nunito', sans-serif; }
+        input, button { font-family: 'Nunito‘, sans-serif; }
         input::placeholder { color: rgba(240,230,255,0.25); }
-        input:focus { outline: none; }
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-thumb { background: rgba(192,132,252,0.3); border-radius: 10px; }
         @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
